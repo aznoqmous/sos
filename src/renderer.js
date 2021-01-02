@@ -5,6 +5,7 @@ export default class Renderer {
 
         this.planets = []
         this.characters = []
+        this.spaceships = []
 
         this.playing = false
     }
@@ -26,6 +27,9 @@ export default class Renderer {
         this.planets.map(p => {
             this.renderPlanet(p)
         })
+        this.spaceships.map(s => {
+            this.renderSpaceship(s)
+        })
         this.characters.map(c => {
             this.renderCharacter(c)
         })
@@ -37,6 +41,10 @@ export default class Renderer {
 
     addCharacter(character){
         this.characters.push(character)
+    }
+
+    addSpaceship(spaceship){
+        this.spaceships.push(spaceship)
     }
 
     renderPlanet(planet){
@@ -108,8 +116,54 @@ export default class Renderer {
         )
     }
 
-    getBreath(time=1000){
-        return (Math.sin(Date.now() / time * 2 ) + 1) / 2
+    renderSpaceship(spaceship){
+        let s = spaceship.skeleton
+        let height = s.noseHeight + s.cabinHeight + s.bodyHeight + s.engineHeight
+        let width = s.noseWidth + s.cabinWidth + s.bodyWidth + s.engineWidth
+        let x = spaceship.x + width / 2
+        let y = spaceship.y - height / 2
+
+
+        this.canvas.setFill(s.color)
+
+        // nose
+        this.canvas.fillRect(
+            x - s.noseWidth / 2, y - height / 2,
+            s.noseWidth, s.noseHeight
+        )
+        // cabin
+        this.canvas.fillRect(
+            x - s.cabinWidth / 2, y - height / 2 + s.noseHeight,
+            s.cabinWidth, s.cabinHeight
+        )
+        // body
+        this.canvas.fillRect(
+            x - s.bodyWidth / 2, y - height / 2 + s.noseHeight + s.cabinHeight,
+            s.bodyWidth, s.bodyHeight
+        )
+        // engine
+        this.canvas.fillRect(
+            x - s.engineWidth / 2, y + height / 2 - s.engineHeight,
+            s.engineWidth, s.engineHeight
+        )
+        // wings
+        this.canvas.fillRect(
+            x - s.bodyWidth / 2 - s.wing, y - height / 2 + s.noseHeight + s.cabinHeight,
+            s.wing, s.bodyHeight - 1
+        )
+        this.canvas.fillRect(
+            x + s.bodyWidth / 2, y - height / 2 + s.noseHeight + s.cabinHeight,
+            s.wing, s.bodyHeight - 1
+        )
+
     }
 
+    getBreath(time=1000){
+        return ( Math.sin(Date.now() / time * 2 ) + 1 ) / 2
+    }
+
+    clear(){
+        this.characters = []
+        this.planets = []
+    }
 }

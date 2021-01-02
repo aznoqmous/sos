@@ -18,6 +18,6 @@ export default class Generator {
 
     static getColor(secret){
         secret = Generator.getSaltedArr(secret, 3)
-        return  `hsl(${secret[0] * secret[1] * secret[2]  % 255 * 255}, 50%, 60%)`
+        return  `hsl(${secret[0] * secret[1] * secret[2] * secret[0] * secret[1] * secret[2] % 255}, 50%, 60%)`
     }
 }

@@ -32,6 +32,10 @@ export default class Canvas {
         this.ctx.fillStyle = color
     }
 
+    setStroke(color) {
+        this.ctx.strokeStyle = color
+    }
+
     fill(color=null){
         if(color) this.setFill(color)
         else this.setFill(this.options.background)
